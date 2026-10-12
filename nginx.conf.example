@@ -1,0 +1,43 @@
+# Hébergement direct sur un serveur Nginx (VPS) — exemple de bloc server.
+# 1. npm run build, puis copier formations/dist/ dans /var/www/formations
+# 2. Certificat HTTPS : certbot --nginx -d formations.mondomaine.fr
+server {
+    listen 443 ssl http2;
+    server_name formations.mondomaine.fr;
+    root /var/www/formations;
+    index index.html;
+
+    # Cache réglé avec `expires` et non `add_header` : un add_header dans un
+    # bloc location annulerait les en-têtes de sécurité définis plus bas.
+    # Application monopage : toute URL inconnue renvoie index.html.
+    location / {
+        try_files $uri $uri/ /index.html;
+        expires -1;
+    }
+
+    # Fichiers générés par Vite (nom avec empreinte) : cache long.
+    location /assets/ {
+        expires max;
+    }
+
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.supabase.co; media-src 'self' blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com; object-src 'none'" always;
+
+    # (Facultatif) servir aussi vos vidéos depuis ce serveur, pour le type
+    # « Lien direct » : déposez-les dans /var/www/formations-videos.
+    # Nginx gère nativement les requêtes partielles (Range) nécessaires
+    # pour avancer dans la vidéo.
+    # location /videos/ {
+    #     alias /var/www/formations-videos/;
+    #     expires 7d;
+    # }
+}
+
+server {
+    listen 80;
+    server_name formations.mondomaine.fr;
+    return 301 https://$host$request_uri;
+}

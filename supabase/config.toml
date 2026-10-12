@@ -1,0 +1,9 @@
+# Configuration Supabase CLI — utilisée pour `supabase functions deploy`.
+# Le schéma SQL, lui, s'applique via le SQL Editor (voir README).
+
+# formations-stripe-webhook est appelée par Stripe, qui n'envoie jamais de JWT
+# Supabase — seulement l'en-tête stripe-signature, vérifié par le code.
+# formations-checkout garde la vérification par défaut : l'élève l'appelle
+# avec sa session Supabase.
+[functions.formations-stripe-webhook]
+verify_jwt = false
