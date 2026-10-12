@@ -1,6 +1,6 @@
-# Formations — plateforme de cours en ligne (remplace Podia)
+# Atelia — plateforme de formations en ligne (remplace Podia)
 
-Site de formations vidéo : catalogue, page de vente, achat Stripe, lecteur de
+**Atelia** est un site de formations vidéo : catalogue, page de vente, achat Stripe, lecteur de
 leçons avec progression, espace d'administration et import des élèves Podia.
 
 **Base de données (preview) :** schéma Postgres dédié `formations` dans le

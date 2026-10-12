@@ -1,4 +1,4 @@
-# Formations — conventions de développement
+# Atelia — conventions de développement
 
 - Logique pure (formatage, validation, calculs de progression, parsing
   d'URL vidéo, paiement) dans des fichiers `.js`/`.ts` à part, testés avec

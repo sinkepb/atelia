@@ -2,7 +2,7 @@ import { supabase } from "../lib/supabase.js";
 import { navigate } from "../lib/router.js";
 import { Lien } from "./Lien.jsx";
 
-export const NOM_SITE = import.meta.env.VITE_SITE_NOM || "Mes formations";
+export const NOM_SITE = import.meta.env.VITE_SITE_NOM || "Atelia";
 
 export function Entete({ session }) {
   async function deconnexion() {
